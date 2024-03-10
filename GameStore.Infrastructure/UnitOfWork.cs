@@ -2,8 +2,8 @@ using GameStore.Application.Repository;
 using GameStore.Domain.Entities;
 using GameStore.Infrastructure.Data;
 using GameStore.Infrastructure.EFCoreRepository;
-using GameStore.Infrastructure.InMemoryRepository;
-using GameStore.Infrastructure.InMemoryRepository.InMemoryStorage.Interface;
+using GameStore.Infrastructure.RemoteRepository;
+using GameStore.Infrastructure.RemoteRepository.HttpHandler;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,11 +20,11 @@ namespace GameStore.Infrastructure
         public IRepository<GamePublisher> GamePublishers { get; set; }
 
 
-        public UnitOfWork(GameStoreDbContext dbContext, IInMemoryStorage<GamePublisher> gamePublisherStorage)
+        public UnitOfWork(GameStoreDbContext dbContext, IHttpHandler httpHandler)
         {
             _dbContext = dbContext;
             Games = new Repository<Game>(_dbContext);
-            GamePublishers = new InMemoryGamePublisherRepository(gamePublisherStorage);
+            GamePublishers = new GamePublisherRemoteRepository(httpHandler);
         }
 
         public void SaveChanges()

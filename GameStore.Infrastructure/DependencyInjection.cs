@@ -3,9 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using GameStore.Infrastructure.Data;
 using GameStore.Application.Repository;
-using GameStore.Infrastructure.InMemoryRepository.InMemoryStorage.Interface;
-using GameStore.Infrastructure.InMemoryRepository.InMemoryStorage;
-using GameStore.Domain.Entities;
+using GameStore.Infrastructure.RemoteRepository.HttpHandler;
 
 namespace GameStore.Infrastructure
 {
@@ -21,8 +19,8 @@ namespace GameStore.Infrastructure
             });
             // Fixes tiny bug with DateTime Postgres values.
             AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
-
-            services.AddSingleton<IInMemoryStorage<GamePublisher>, InMemoryStorage<GamePublisher>>();
+            services.AddHttpClient();
+            services.AddScoped<IHttpHandler, HttpHandler>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             return services;
         }
