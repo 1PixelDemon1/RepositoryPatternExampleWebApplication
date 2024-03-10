@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameStore.Infrastructure.Repository
+namespace GameStore.Infrastructure.EFCoreRepository
 {
     public class Repository<T> : IRepository<T> where T : class
     {
@@ -20,22 +20,22 @@ namespace GameStore.Infrastructure.Repository
             _dbSet = dbContext.Set<T>();
         }
 
-        public void Add(T value)
+        public virtual void Add(T value)
         {
             _dbSet.Add(value);
         }
 
-        public IEnumerable<T>? GetAll()
+        public virtual IEnumerable<T>? GetAll()
         {
             return _dbSet;
         }
 
-        public void Remove(T value)
+        public virtual void Remove(T value)
         {
             _dbSet.Remove(value);
         }
 
-        public void Update(T value)
+        public virtual void Update(T value)
         {
             _dbSet.Update(value);
         }
